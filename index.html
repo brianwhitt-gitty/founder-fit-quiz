@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A 44-question self-assessment for experienced professionals weighing whether to leave corporate for entrepreneurship.">
+<title>Founder Fit Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: single narrow column, one decision per screen; results read like a founder's term sheet — summary first, then the line items. */
+:root {
+  --bg: #ECEFF3;
+  --surface: #FFFFFF;
+  --ink: #15202E;
+  --muted: #586474;
+  --line: #D2D8E0;
+  --founder: #D08A0C;
+  --founder-ink: #8A5600;
+  --founder-soft: #F6E7C8;
+  --career: #2D5F8B;
+  --career-ink: #23507A;
+  --career-soft: #D6E3EF;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F151C; --surface: #18212B; --ink: #E6EBF0; --muted: #9AA6B4; --line: #2C3846;
+    --founder: #F0B23E; --founder-ink: #F4C46C; --founder-soft: #3A2E17;
+    --career: #6FA3D4; --career-ink: #8DB8E0; --career-soft: #1C2C3D;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F151C; --surface: #18212B; --ink: #E6EBF0; --muted: #9AA6B4; --line: #2C3846;
+  --founder: #F0B23E; --founder-ink: #F4C46C; --founder-soft: #3A2E17;
+  --career: #6FA3D4; --career-ink: #8DB8E0; --career-soft: #1C2C3D;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+body {
+  margin: 0;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 40px 64px; display: flex; flex-direction: column; gap: 28px; }
+h1, h2, h3 { font-family: var(--display); font-stretch: 112%; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.05; font-weight: 800; }
+h2 { font-size: 22px; font-weight: 800; line-height: 1.2; }
+h3 { font-size: 16px; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 18px; color: var(--muted); max-width: 60ch; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+
+.btn {
+  font: 600 16px/1 var(--body); border-radius: 8px; padding: 14px 22px; cursor: pointer;
+  border: 1.5px solid var(--ink); background: var(--ink); color: var(--bg);
+  transition: transform .12s ease, background .12s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.link { border: 0; background: none; color: var(--muted); padding: 10px 4px; }
+.btn.link:hover { color: var(--ink); transform: none; }
+.btn:disabled { opacity: .35; cursor: default; transform: none; }
+button:focus-visible { outline: 3px solid var(--founder); outline-offset: 2px; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+
+/* Intro */
+.measures { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.measures > * { min-width: 0; }
+.trait-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.trait-list li { display: flex; gap: 10px; align-items: baseline; font-size: 15px; }
+.trait-list li::before { content: ""; width: 8px; height: 8px; border-radius: 2px; flex: none; transform: translateY(-1px); }
+.apt li::before { background: var(--founder); }
+.enj li::before { background: var(--career); }
+.preview-cap { font-size: 13px; color: var(--muted); margin-top: 8px; }
+@media (max-width: 620px) { .measures { grid-template-columns: 1fr; } }
+
+/* Quiz */
+.qhead { display: flex; flex-direction: column; gap: 10px; }
+.qmeta { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--founder); width: 0; transition: width .25s ease; }
+.qtext { font-family: var(--display); font-stretch: 112%; font-weight: 600; font-size: clamp(21px, 4vw, 27px); line-height: 1.25; text-wrap: balance; min-height: 3.8em; }
+.qhint { font-size: 14px; color: var(--muted); margin-top: -12px; }
+.opts { display: grid; gap: 10px; }
+.opts.likert { grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 600px) { .opts.likert { grid-template-columns: 1fr; } }
+.opt {
+  font: 500 15px/1.35 var(--body); text-align: left; cursor: pointer; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 10px; padding: 14px 16px;
+  display: flex; gap: 12px; align-items: flex-start; transition: border-color .12s ease, background .12s ease;
+}
+.likert .opt { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 14px 8px; }
+@media (max-width: 600px) { .likert .opt { flex-direction: row; text-align: left; padding: 12px 16px; } }
+.opt:hover { border-color: var(--muted); }
+.opt.sel { border-color: var(--founder); background: var(--founder-soft); }
+.key { font-family: var(--mono); font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; flex: none; }
+.qfoot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.kbd-hint { font-size: 13px; color: var(--muted); }
+@media (hover: none) { .kbd-hint, .key { display: none; } }
+
+/* Results */
+.verdict { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; align-items: center; }
+.verdict > * { min-width: 0; }
+@media (max-width: 660px) { .verdict { grid-template-columns: 1fr; } }
+.arch { font-family: var(--display); font-stretch: 112%; font-weight: 800; font-size: clamp(32px, 6vw, 44px); line-height: 1.02; }
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.score { border-top: 2px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 2px; }
+.score b { font-family: var(--mono); font-size: 28px; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.score span { font-size: 13px; color: var(--muted); line-height: 1.3; }
+.score.f { border-color: var(--founder); }
+.score.c { border-color: var(--career); }
+@media (max-width: 420px) { .scores { grid-template-columns: 1fr 1fr; } }
+
+svg.quad { width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto; }
+.q-founder { fill: var(--founder-soft); }
+.q-career { fill: var(--career-soft); }
+.q-neutral { fill: var(--surface); }
+.q-line { stroke: var(--line); stroke-width: 1; fill: none; }
+.q-axis { stroke: var(--muted); stroke-width: 1.2; fill: none; }
+.q-hyb { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+.q-lab { fill: var(--muted); font: 600 11px var(--body); }
+.q-lab.f { fill: var(--founder-ink); }
+.q-lab.c { fill: var(--career-ink); }
+.q-tick { fill: var(--muted); font: 500 10px var(--mono); }
+.q-dot { fill: var(--ink); stroke: var(--surface); stroke-width: 3; }
+.q-ghost { fill: var(--muted); opacity: .5; }
+
+.dims { display: flex; flex-direction: column; gap: 18px; margin-top: 16px; }
+.dim { display: grid; gap: 6px; }
+.dim-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.dim-top h3 { font-size: 15px; }
+.dim-top .val { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.track { position: relative; height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--career-soft), var(--line) 50%, var(--founder-soft)); }
+.track::after { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--muted); opacity: .6; }
+.track .mk { position: absolute; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.mk.f { background: var(--founder); }
+.mk.c { background: var(--career); }
+.mk.n { background: var(--muted); }
+.ends { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); }
+.ends span:last-child { text-align: right; }
+.dim p { font-size: 14px; color: var(--ink); }
+.tag { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+.tag.apt { background: var(--founder-soft); color: var(--founder-ink); }
+.tag.enj { background: var(--career-soft); color: var(--career-ink); }
+.tag.both { background: var(--line); color: var(--muted); }
+
+.pulls { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pulls > * { min-width: 0; }
+@media (max-width: 620px) { .pulls { grid-template-columns: 1fr; } }
+.pull { border-left: 3px solid var(--founder); padding: 4px 0 4px 16px; display: flex; flex-direction: column; gap: 10px; }
+.pull.c { border-color: var(--career); }
+.pull ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+
+.paths { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+.path { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: baseline; }
+.path h3 { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.path .pct { font-family: var(--mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.path .pbar { grid-column: 1 / -1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.path .pbar i { display: block; height: 100%; border-radius: 3px; }
+.path p { grid-column: 1 / -1; font-size: 14px; color: var(--muted); }
+.best { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; background: var(--ink); color: var(--bg); padding: 2px 7px; border-radius: 4px; }
+
+.steps { margin: 12px 0 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
+.ready-row { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-top: 8px; }
+.ready-row > div { flex: 1 1 260px; min-width: 0; }
+.chip { display: inline-block; font: 600 13px var(--body); padding: 4px 10px; border-radius: 999px; }
+.chip.ok { background: var(--founder-soft); color: var(--founder-ink); }
+.chip.mid { background: var(--line); color: var(--ink); }
+.chip.low { background: var(--career-soft); color: var(--career-ink); }
+.toast { font-size: 14px; color: var(--muted); min-height: 1.4em; }
+.fineprint { font-size: 13px; color: var(--muted); max-width: 62ch; }
+.privacy { display: flex; flex-direction: column; gap: 6px; border-left: 3px solid var(--career); padding: 4px 0 4px 16px; max-width: 64ch; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+  <!-- INTRO -->
+  <section id="intro" class="wrap" style="padding:0">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span class="eyebrow">Self-assessment for experienced professionals · 44 questions · about 10 minutes</span>
+      <h1>Should you leave corporate to build your own company?</h1>
+      <p class="lede">You already know how to succeed inside an organization. This quiz checks three other things: whether you'd be good at running your own venture, whether you'd actually enjoy it, and whether your situation makes now a sensible time to give up a corporate salary.</p>
+    </div>
+
+    <div class="panel measures">
+      <div>
+        <h3>Would you be good at it?</h3>
+        <ul class="trait-list apt">
+          <li>Resilience to rejection</li>
+          <li>Self-direction without a boss</li>
+          <li>Selling and persuasion</li>
+          <li>Bias to action</li>
+          <li>Generalist range</li>
+        </ul>
+        <h3 style="margin-top:20px">Would you enjoy it?</h3>
+        <ul class="trait-list enj">
+          <li>Tolerance for uncertainty</li>
+          <li>Need for autonomy</li>
+          <li>Ownership vs. security motivation</li>
+          <li>Appetite for intensity</li>
+        </ul>
+        <p class="small muted" style="margin-top:16px">Plus nine questions about the leap itself: what's driving it, your industry edge and network, savings and fixed costs, household support, and how easily you could return to corporate.</p>
+      </div>
+      <div>
+        <div id="previewQuad"></div>
+        <p class="preview-cap">Your result lands somewhere on this map. The grey dot is only an example.</p>
+      </div>
+    </div>
+
+    <div class="privacy">
+      <h3>Your answers stay private</h3>
+      <p class="small">This quiz is anonymous. Your answers never leave your device: nothing is sent to a server, and nobody, including the person who shared it with you, can see your responses or results. It's here simply to help if you're curious. Your progress is saved only in your own browser so you can pick up where you left off.</p>
+    </div>
+    <div class="row">
+      <button class="btn" id="startBtn" type="button">Start the quiz</button>
+      <button class="btn ghost" id="resumeBtn" type="button" hidden>Resume where you left off</button>
+    </div>
+    <p class="fineprint">This is a structured self-reflection tool built on common founder research themes, not a clinically validated test. Answer for how you actually behave, not how you'd like to.</p>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="wrap" style="padding:0" hidden>
+    <div class="qhead">
+      <div class="qmeta"><span id="qPart">Part 1 · How you work</span><span id="qCount">1 / 37</span></div>
+      <div class="bar"><i id="qBar"></i></div>
+    </div>
+    <p class="qtext" id="qText"></p>
+    <p class="qhint" id="qHint"></p>
+    <div class="opts" id="qOpts" role="group" aria-labelledby="qText"></div>
+    <div class="qfoot">
+      <button class="btn link" id="backBtn" type="button">← Back</button>
+      <span class="kbd-hint">Tip: press number keys to answer</span>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="wrap" style="padding:0" hidden></section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function () {
+  const DIMS = {
+    U: { name: "Uncertainty tolerance", grp: "enj", left: "Wants predictability", right: "Thrives on uncertainty",
+      hi: "Ambiguity energizes you. Lumpy income and unclear next steps are the founder's daily weather, and you can work in it.",
+      mid: "You can handle some uncertainty, but sustained income swings would wear on you. A cushion or a co-founder would help.",
+      lo: "You do your best work with a clear plan and predictable pay. Founder-level uncertainty would likely feel draining, not exciting." },
+    A: { name: "Autonomy drive", grp: "enj", left: "Happy within a structure", right: "Needs to call the shots",
+      hi: "You chafe at being directed and want the final say. That itch is one of the strongest predictors that employment will eventually frustrate you.",
+      mid: "You like having input and some ownership, but you don't need to be the one in charge of everything.",
+      lo: "You're comfortable letting others set direction so you can focus on doing excellent work. That's an asset in most organizations." },
+    M: { name: "Ownership motivation", grp: "enj", left: "Motivated by security & status", right: "Motivated by ownership",
+      hi: "Building something that's yours matters more to you than title or a steady paycheck. That's the fuel that carries founders through the lean years.",
+      mid: "You value both ownership and stability. You might be happiest with meaningful equity inside someone else's company.",
+      lo: "Security, prestige, and reliable pay are real motivators for you. A high-paying track delivers those directly; a startup mostly delays them." },
+    W: { name: "Intensity appetite", grp: "enj", left: "Protects work–life balance", right: "Will sprint for years",
+      hi: "You're willing to let work take over for a stretch if it's your own thing. Early-stage companies usually demand exactly that.",
+      mid: "You'll push hard in bursts, but you want the hours to come down eventually. Pick ventures with a realistic pace.",
+      lo: "Firm boundaries matter to you. Founding usually erodes them for years, which could make the experience miserable even if it works." },
+    B: { name: "Generalist range", grp: "both", left: "Deep specialist", right: "Jack of all trades",
+      hi: "You enjoy switching between sales, product, money, and mopping the floor. Early founders have to wear every hat.",
+      mid: "You can stretch across roles, but you'd want to hand off the parts you don't enjoy fairly soon.",
+      lo: "You'd rather go deep than wide. Specialists are often paid best in established firms, and founders need a partner to cover the gaps." },
+    R: { name: "Resilience", grp: "apt", left: "Rejection stings", right: "Bounces back fast",
+      hi: "You recover quickly from rejection and keep going without applause. Most startups are a long string of 'no' before a 'yes'.",
+      mid: "Setbacks slow you down but don't stop you. A support network and small early wins would keep you going.",
+      lo: "Rejection and public failure hit you hard. That's human, but founding would expose you to a lot of both." },
+    S: { name: "Self-direction", grp: "apt", left: "Thrives with external structure", right: "Self-starting",
+      hi: "You get things done with no one checking in. With no boss, this is the trait that decides whether anything happens at all.",
+      mid: "You can self-start, but deadlines and accountability help. A co-founder or advisor cadence would fill that role.",
+      lo: "You do your best work with external structure and deadlines. That's exactly what a good employer provides." },
+    P: { name: "Selling & persuasion", grp: "apt", left: "Lets work speak", right: "Comfortable selling",
+      hi: "You're comfortable asking for money, time, and commitment. Founders sell constantly: to customers, investors, and recruits.",
+      mid: "You can sell when you believe in something, though it doesn't come naturally every time. This is very learnable.",
+      lo: "You'd prefer your work to speak for itself. As a founder, nobody else will speak for it until you've sold them on it." },
+    X: { name: "Bias to action", grp: "apt", left: "Deliberate & thorough", right: "Ships fast",
+      hi: "You move quickly and fix things as you go. Speed is one of the few advantages a tiny company has over big ones.",
+      mid: "You balance speed and rigor. You'd ship, but you'd want enough data first.",
+      lo: "You're careful and thorough before acting. That's prized in many high-stakes careers, but startups often reward speed over certainty." }
+  };
+
+  const LIK = ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"];
+  const L = (dim, text, rev) => ({ t: "l", dim, text, rev: !!rev });
+  const S = (dim, text, opts) => ({ t: "s", dim, text, opts });
+  const R = (key, text, opts) => ({ t: "r", key, text, opts });
+
+  const Q = [
+    S("U", "Which would you choose for the next five years?", [
+      ["Stay on my current track: steady raises and a likely promotion", 0],
+      ["Join a late-stage startup at similar pay, with some equity", .33],
+      ["Take a 30% pay cut for 1% of a fast-growing 40-person startup", .67],
+      ["Pay myself almost nothing to own most of a company I start, which could be worth zero or a fortune", 1]]),
+    L("S", "When nobody sets a deadline for me, I still get important things done."),
+    L("A", "Being told exactly how to do my work frustrates me, even when the person is competent."),
+    L("R", "After a big rejection, I'm usually back at it within a day or two."),
+    L("P", "I'm comfortable asking strangers for money, time, or a commitment."),
+    S("M", "Ten years from now, which would make you proudest?", [
+      ["A senior title at a top-tier firm", 0],
+      ["Being known as a leading expert in my field", .25],
+      ["Financial security and plenty of time with people I love", .4],
+      ["Having built something from nothing that exists because of me", 1]]),
+    L("B", "I enjoy days that jump between very different tasks, like design, finance, and hiring."),
+    L("X", "I'd rather ship something rough and improve it than wait until it's polished."),
+    L("W", "I'd accept work spilling into evenings and weekends for a few years if I owned the outcome."),
+    L("U", "Not knowing what next month's income will be would keep me up at night.", true),
+    S("R", "You pitch an idea to 20 potential customers. 18 say no and 2 say maybe. Your honest reaction?", [
+      ["The idea is dead. Time to move on.", 0],
+      ["Discouraged. I'd seriously question whether to continue.", .33],
+      ["Curious. I want to know what those 2 saw.", .75],
+      ["Energized. Two maybes from twenty cold pitches is a real signal.", 1]]),
+    L("S", "I tend to put things off unless someone else is counting on me.", true),
+    S("A", "Your company is about to launch a product you think is a mistake. What do you do?", [
+      ["Accept it. It's leadership's call.", 0],
+      ["Raise my concerns once, then commit fully.", .33],
+      ["Push hard to change the decision.", .67],
+      ["Start sketching how I'd build it myself, my way.", 1]]),
+    L("P", "I'd rather let my work speak for itself than promote it.", true),
+    L("M", "A respected title and a well-known employer matter a lot to me.", true),
+    L("X", "I need a lot of information before I feel comfortable making a decision.", true),
+    L("B", "I'd rather be among the best in the world at one thing than good at many.", true),
+    L("U", "Open-ended problems with no clear right answer energize me more than they stress me."),
+    L("R", "A public failure would hit my sense of who I am very hard.", true),
+    L("W", "Firm boundaries between work and personal life are non-negotiable for me.", true),
+    L("S", "I've started something on my own (a side business, club, app, or event) and seen it through."),
+    S("P", "You're at a networking event where you know no one. What actually happens?", [
+      ["I find a reason to leave early.", 0],
+      ["I have one or two good conversations, usually when someone approaches me.", .33],
+      ["I introduce myself to several people and follow up with a couple.", .75],
+      ["I work the room and leave with leads and a few new allies.", 1]]),
+    L("A", "I often think I could run my team or company better than the people in charge."),
+    S("X", "You notice a customer pain point that nobody is addressing. Your first move?", [
+      ["Flag it to whoever owns that area and move on", 0],
+      ["Research it thoroughly before raising it", .33],
+      ["Talk to a few affected people to understand it", .67],
+      ["Hack together a rough fix and test it this week", 1]]),
+    L("M", "I'd trade some income for building something that's truly mine."),
+    L("B", "I'm willing to do unglamorous work (bookkeeping, support emails, cleaning up) if it moves things forward."),
+    L("U", "I like having my career mapped out at least a few years ahead.", true),
+    L("R", "I've kept working on something for months with little outside validation."),
+    S("S", "Think of the last goal you set for yourself that no one else was tracking. What happened?", [
+      ["I dropped it fairly quickly", 0],
+      ["I made progress, then it fizzled", .33],
+      ["I finished it, a bit later than planned", .75],
+      ["I finished it, or I'm still going strong", 1]]),
+    L("A", "I like having a manager who sets priorities so I can focus on doing great work.", true),
+    L("P", "I can explain why something matters in a way that gets people excited about it."),
+    L("M", "Stable, predictable pay is one of the most important things a job gives me.", true),
+    L("X", "I make decisions quickly and course-correct later."),
+    S("W", "Which weekly rhythm sounds best for the next three years?", [
+      ["About 40 hours, fully off nights and weekends", 0],
+      ["45 to 50 hours with occasional crunch weeks", .33],
+      ["55 to 60 hours on something I care about deeply", .67],
+      ["Whatever it takes. I'd rather sprint on my own thing.", 1]]),
+    L("M", "Without my current title and company name, I'd feel unsure how to introduce myself professionally.", true),
+    R("push", "What's mainly making you consider leaving corporate?", [
+      ["I'm burned out and need out", 0],
+      ["Frustration with my boss, company, or office politics", .15],
+      ["I've hit a ceiling, or I'm bored", .5],
+      ["I'm drawn to a specific problem or opportunity I want to own", 1]]),
+    R("idea", "Do you have a specific business idea right now?", [
+      ["Not really", 0], ["A vague direction or industry I'm drawn to", .33],
+      ["A specific problem and solution in mind", .67], ["I'm already working on it, even part-time", 1]]),
+    R("expertise", "How closely would your business connect to your professional experience?", [
+      ["Not at all. It would be a fresh start.", 0],
+      ["Loosely, through transferable skills", .33],
+      ["Closely. It's in my industry or function.", .75],
+      ["Directly. I know the customers and their problems firsthand.", 1]]),
+    R("network", "Could you get 10 people from your professional network to take a call about your venture within a month?", [
+      ["Unlikely", 0], ["Maybe three or four", .35], ["Probably, yes", .75], ["Easily, and some might become customers", 1]]),
+    R("runway", "If you left your job tomorrow, how long could your savings cover your living expenses?", [
+      ["Less than 3 months", 0], ["3 to 6 months", .35], ["6 to 12 months", .7], ["More than a year", 1]]),
+    R("lifestyle", "How much of your current take-home pay goes to fixed costs like housing, cars, tuition, and debt?", [
+      ["Less than half", 1], ["Half to three quarters", .6], ["Most of it", .3], ["All of it, or more", 0]]),
+    R("deps", "How many people depend on your income?", [
+      ["Just me, or no one", 1], ["One other person", .6], ["Two or more people", .3]]),
+    R("household", "How does your partner or household feel about you leaving a stable salary?", [
+      ["Fully supportive, or it's only my decision", 1],
+      ["Supportive, with conditions like a timeline or savings target", .7],
+      ["Uneasy", .35], ["Opposed", 0]]),
+    R("reentry", "If your venture didn't work out after two years, how easily could you land a comparable corporate role?", [
+      ["Very hard. My field moves fast or roles are scarce.", 0],
+      ["Possible, but likely a step down", .4],
+      ["Fairly easily", .75],
+      ["Easily. People would hire me back tomorrow.", 1]])
+  ];
+
+  const ARCH = {
+    natural: { name: "Natural Founder",
+      sum: "You have both the temperament to do it well and the wiring to enjoy it. Uncertainty, selling, and long stretches without validation are more likely to energize you than wear you down. A salaried path may pay well but would likely leave you restless.",
+      steps: ["Validate before you resign: have 15 to 20 conversations with people who have the problem, ideally from your own industry, and get at least one paying commitment.",
+              "Set a leave date tied to your next bonus or vesting date so you don't walk away from money you've already earned.",
+              "Ask whether your current employer, or its competitors, could become your first client after you leave.",
+              "Find a co-founder or advisor who covers your lowest-scoring trait below."] },
+    restless: { name: "Restless Builder",
+      sum: "You'd likely love the freedom and ownership of founding, but some of the day-to-day skills that keep a startup alive aren't fully formed yet. The good news: these traits are the trainable ones. Build reps before betting your income.",
+      steps: ["Start a side project with a real customer and a real price while you still have your salary. Check your employment contract's moonlighting and IP clauses first.",
+              "Practice your weakest skill on purpose. If it's selling, try to get 5 people to pre-pay for something.",
+              "Consider a senior role at an early-stage startup for a year or two to learn the founder job with a paycheck."] },
+    operator: { name: "Capable Operator",
+      sum: "You have many founder skills, but you value structure, stability, or balance more than the freedom of running your own thing. You'd probably be good at it and still not enjoy it. High-paying roles that reward initiative, or senior roles at growing companies, are a strong fit.",
+      steps: ["Before leaving, try to get founder-like scope where you are: lead a new product, team, or market launch.",
+              "Consulting or fractional work lets you go independent without betting everything on one venture.",
+              "If you want upside, negotiate meaningful equity as a senior hire at a growing company instead of founding."] },
+    career: { name: "Career Compounder",
+      sum: "Your strengths and motivations line up with a high-paying, structured career. You'd likely find the chaos of founding more stressful than thrilling. That's a perfectly good answer: compounding salary, savings, and expertise is a reliable path to wealth and a good life.",
+      steps: ["If you're mainly unhappy with your current job, try a different employer or role before leaving corporate altogether.",
+              "Optimize the track you're on: target higher-paying firms, specialize, and negotiate hard.",
+              "Invest consistently, and if you still feel the itch, test it with a tiny side project rather than a resignation."] },
+    hybrid: { name: "Balanced Hybrid",
+      sum: "You sit near the middle on both ability and enjoyment, so neither path is a clear mismatch. You'd probably do best in a setting that blends the two: an early-stage startup role, a small business with steady cash flow, or a side venture alongside a strong career.",
+      steps: ["Test before you leap: run a 90-day side project or consulting engagement and notice whether it energizes or drains you.",
+              "Talk to three people who left corporate to found something, including at least one whose venture failed.",
+              "Look at senior roles at startups with 5 to 50 people to sample founder life with a salary."] }
+  };
+
+  const PATHS = [
+    { key: "venture", name: "Start a venture-backed startup", color: "founder",
+      desc: "High risk, high ceiling. Raise money, grow fast, sell constantly.",
+      fit: d => avg([d.U, d.R, d.P, d.X, d.A]) },
+    { key: "boot", name: "Build a bootstrapped or small business", color: "founder",
+      desc: "Self-funded, profitable sooner, more control and usually less chaos.",
+      fit: d => avg([d.S, d.B, d.A, d.M, d.P]) },
+    { key: "buy", name: "Buy an existing small business", color: "founder",
+      desc: "Ownership with customers and cash flow already in place. Corporate management experience transfers directly.",
+      fit: d => avg([d.A, d.P, d.S, d.M, 100 - d.U]) },
+    { key: "consult", name: "Go independent as a consultant or fractional exec", color: "founder",
+      desc: "Sell your expertise on your own terms. Often the smoothest first step out of corporate, and a way to fund a bigger venture.",
+      fit: (d, r) => 0.55 * avg([d.P, d.S, d.A]) + 0.45 * avg([r.exp, r.net]) },
+    { key: "side", name: "Build on the side before you quit", color: "founder",
+      desc: "Keep your salary and benefits until you have a first paying customer.",
+      fit: (d, r) => 0.5 * avg([d.S, d.X, d.M]) + 0.25 * (100 - d.U) + 0.25 * (100 - r.ready) },
+    { key: "early", name: "Join a startup as a senior hire", color: "career",
+      desc: "Founder-like pace and range with a salary and equity, while someone else carries the risk.",
+      fit: d => 0.8 * avg([d.U, d.B, d.X, d.R]) + 0.2 * (100 - d.A) },
+    { key: "career", name: "Stay and climb a high-paying track", color: "career",
+      desc: "Push for promotion or move to a better-paying firm. Compounding pay and stability.",
+      fit: d => avg([100 - d.U, 100 - d.A, 100 - d.M, 100 - d.W]) }
+  ];
+
+  function avg(a) { return a.reduce((s, x) => s + x, 0) / a.length; }
+  const $ = id => document.getElementById(id);
+  const KEY = "founder-fit-v2";
+  let idx = 0, ans = {}, advancing = false;
+
+  function save(done) { try { localStorage.setItem(KEY, JSON.stringify({ idx, ans, done: !!done })); } catch (e) {} }
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } }
+  function clear() { try { localStorage.removeItem(KEY); } catch (e) {} }
+
+  function show(id) { ["intro", "quiz", "results"].forEach(s => $(s).hidden = s !== id); window.scrollTo(0, 0); }
+
+  // ---------- Quadrant chart ----------
+  function quad(a, e, ghost) {
+    const X = v => 44 + v / 100 * 280, Y = v => 300 - v / 100 * 280;
+    const m = 55;
+    return `<svg class="quad" viewBox="0 0 340 340" role="img" aria-label="Founder aptitude ${Math.round(a)}, founder enjoyment ${Math.round(e)}">
+      <rect class="q-neutral" x="${X(0)}" y="${Y(m)}" width="${X(m) - X(0)}" height="${Y(0) - Y(m)}" />
+      <rect class="q-career" x="${X(0)}" y="${Y(m)}" width="${X(m) - X(0)}" height="${Y(0) - Y(m)}" />
+      <rect class="q-founder" x="${X(m)}" y="${Y(100)}" width="${X(100) - X(m)}" height="${Y(m) - Y(100)}" />
+      <rect class="q-neutral" x="${X(0)}" y="${Y(100)}" width="${X(m) - X(0)}" height="${Y(m) - Y(100)}" />
+      <rect class="q-neutral" x="${X(m)}" y="${Y(m)}" width="${X(100) - X(m)}" height="${Y(0) - Y(m)}" />
+      <rect class="q-line" x="${X(0)}" y="${Y(100)}" width="280" height="280" />
+      <line class="q-line" x1="${X(m)}" y1="${Y(0)}" x2="${X(m)}" y2="${Y(100)}" />
+      <line class="q-line" x1="${X(0)}" y1="${Y(m)}" x2="${X(100)}" y2="${Y(m)}" />
+      <rect class="q-hyb" x="${X(45)}" y="${Y(65)}" width="${X(65) - X(45)}" height="${Y(45) - Y(65)}" />
+      <text class="q-lab f" x="${X(100) - 8}" y="${Y(100) + 18}" text-anchor="end">Natural Founder</text>
+      <text class="q-lab" x="${X(0) + 8}" y="${Y(100) + 18}">Restless Builder</text>
+      <text class="q-lab" x="${X(100) - 8}" y="${Y(0) - 10}" text-anchor="end">Capable Operator</text>
+      <text class="q-lab c" x="${X(0) + 8}" y="${Y(0) - 10}">Career Compounder</text>
+      <text class="q-lab" x="${X(55)}" y="${Y(65) - 6}" text-anchor="middle">Hybrid</text>
+      <text class="q-tick" x="${X(0)}" y="318" text-anchor="middle">0</text>
+      <text class="q-tick" x="${X(50)}" y="318" text-anchor="middle">50</text>
+      <text class="q-tick" x="${X(100)}" y="318" text-anchor="middle">100</text>
+      <text class="q-tick" x="36" y="${Y(0) + 3}" text-anchor="end">0</text>
+      <text class="q-tick" x="36" y="${Y(50) + 3}" text-anchor="end">50</text>
+      <text class="q-tick" x="36" y="${Y(100) + 7}" text-anchor="end">100</text>
+      <text class="q-lab" x="${X(50)}" y="336" text-anchor="middle">Would be good at it →</text>
+      <text class="q-lab" transform="translate(12 ${Y(50)}) rotate(-90)" text-anchor="middle">Would enjoy it →</text>
+      <circle class="${ghost ? "q-ghost" : "q-dot"}" cx="${X(a)}" cy="${Y(e)}" r="${ghost ? 7 : 9}" />
+    </svg>`;
+  }
+
+  // ---------- Quiz rendering ----------
+  function renderQ() {
+    const q = Q[idx];
+    const part = q.t === "r" ? "Part 2 · Your leap from corporate" : "Part 1 · How you work";
+    $("qPart").textContent = part;
+    $("qCount").textContent = `${idx + 1} / ${Q.length}`;
+    $("qBar").style.width = (idx / Q.length * 100) + "%";
+    $("qText").textContent = q.text;
+    $("qHint").textContent = q.t === "l" ? "How much do you agree?" : "Pick the closest fit.";
+    $("backBtn").disabled = idx === 0;
+    const box = $("qOpts");
+    box.className = "opts" + (q.t === "l" ? " likert" : "");
+    box.innerHTML = "";
+    const opts = q.t === "l" ? LIK.map((l, i) => [l, i / 4]) : q.opts;
+    opts.forEach(([label, v], i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.id = `opt-${i}`;
+      b.className = "opt" + (ans[idx] && ans[idx].i === i ? " sel" : "");
+      b.innerHTML = `<span class="key">${i + 1}</span><span>${label}</span>`;
+      b.addEventListener("click", () => pick(i, v));
+      box.appendChild(b);
+    });
+  }
+
+  function pick(i, v) {
+    if (advancing) return;
+    ans[idx] = { i, v };
+    [...$("qOpts").children].forEach((c, j) => c.classList.toggle("sel", j === i));
+    advancing = true;
+    setTimeout(() => {
+      advancing = false;
+      if (idx < Q.length - 1) { idx++; save(); renderQ(); }
+      else { save(true); renderResults(); }
+    }, 220);
+  }
+
+  // ---------- Scoring ----------
+  function score() {
+    const sums = {}, counts = {};
+    Q.forEach((q, i) => {
+      if (q.t === "r" || !ans[i]) return;
+      const v = q.rev ? 1 - ans[i].v : ans[i].v;
+      sums[q.dim] = (sums[q.dim] || 0) + v;
+      counts[q.dim] = (counts[q.dim] || 0) + 1;
+    });
+    const d = {};
+    Object.keys(DIMS).forEach(k => d[k] = counts[k] ? sums[k] / counts[k] * 100 : 50);
+    const apt = avg([d.R, d.S, d.P, d.X, d.B]);
+    const enj = avg([d.U, d.A, d.M, d.W, d.B]);
+    const rv = key => { const i = Q.findIndex(q => q.key === key); return ans[i] ? ans[i].v : 0.5; };
+    const ri = key => { const i = Q.findIndex(q => q.key === key); return ans[i] ? ans[i].i : -1; };
+    const ready = (rv("runway") * .35 + rv("lifestyle") * .2 + rv("deps") * .1 + rv("household") * .15 + rv("reentry") * .2) * 100;
+    const idea = rv("idea") * 100;
+    const exp = rv("expertise") * 100, net = rv("network") * 100;
+    const edge = avg([exp, net, idea]);
+    const leap = { push: ri("push"), lifestyle: rv("lifestyle"), household: rv("household"), reentry: rv("reentry") };
+    let arch;
+    if (apt >= 45 && apt <= 65 && enj >= 45 && enj <= 65) arch = "hybrid";
+    else if (apt >= 55 && enj >= 55) arch = "natural";
+    else if (enj >= 55) arch = "restless";
+    else if (apt >= 55) arch = "operator";
+    else arch = "career";
+    const ctx = { ready, exp, net };
+    const paths = PATHS.map(p => ({ ...p, pct: Math.max(0, Math.min(100, p.fit(d, ctx))) })).sort((a, b) => b.pct - a.pct);
+    return { d, apt, enj, ready, idea, edge, leap, arch, paths };
+  }
+
+  function dimText(k, v) { return v >= 62 ? DIMS[k].hi : v <= 38 ? DIMS[k].lo : DIMS[k].mid; }
+  const grpTag = g => g === "apt" ? '<span class="tag apt">Skill</span>' : g === "enj" ? '<span class="tag enj">Enjoyment</span>' : '<span class="tag both">Both</span>';
+
+  function renderResults() {
+    const r = score();
+    const A = ARCH[r.arch];
+    const order = Object.keys(DIMS).sort((a, b) => r.d[b] - r.d[a]);
+    const top = order.slice(0, 3), bottom = order.slice(-3).reverse();
+    const readyChip = r.ready >= 65 ? ['ok', 'Strong safety net'] : r.ready >= 40 ? ['mid', 'Partial safety net'] : ['low', 'Thin safety net'];
+    const readyText = r.ready >= 65
+      ? "Your savings, fixed costs, household, and fallback options give you room to absorb a year or more of low income. If your trait scores point toward founding, money isn't what's stopping you."
+      : r.ready >= 40
+      ? "You have some cushion, but a long lean stretch would strain it. Building on the side, or consulting as a bridge, lowers the stakes."
+      : "Leaving your salary right now would be risky. That's about timing, not fit: build savings, trim fixed costs, test on the side, and revisit.";
+    const edgeChip = r.edge >= 65 ? ['ok', 'Strong industry edge'] : r.edge >= 40 ? ['mid', 'Some edge'] : ['low', 'Starting fresh'];
+    const edgeText = r.edge >= 65
+      ? "Your experience, network, and idea give you an advantage most first-time founders lack: you can reach customers quickly and you understand their problems. Your best venture is probably in or next to your own industry."
+      : r.edge >= 40
+      ? "You have some transferable advantage. Lean on your network early for customer conversations, and favor ideas close to what you already know."
+      : "You'd be starting without much built-in advantage. That's doable, but expect a longer ramp. Ideas closer to your experience, or a stronger network first, would shorten it.";
+    const notes = [];
+    if (r.leap.push === 0) notes.push("You said burnout is the main driver. Founding is usually more demanding than corporate work at first. Get real recovery time first (a sabbatical, leave, or a lighter role), then retake this quiz. Your answers will be more reliable once you're rested.");
+    if (r.leap.push === 1) notes.push("You're mainly being pushed out by frustration with your current situation rather than pulled toward something. That's a strong reason to change jobs, but not necessarily to start a company. Check whether a different employer would solve it.");
+    if (r.leap.push === 3) notes.push("You're pulled toward a specific opportunity, not just away from your job. That's the healthiest reason to leave.");
+    if (r.leap.lifestyle <= .3) notes.push("Your fixed costs use most of your salary. Lowering them before you leave buys more runway than almost anything else you can do.");
+    if (r.leap.household <= .35) notes.push("Your household isn't on board yet. Leaving a salary is a shared financial decision, so agree on a budget, a timeline, and the point at which you'd go back.");
+    if (r.leap.reentry >= .75) notes.push("Your fallback is strong. If it doesn't work, you can likely return to a comparable role, so the real downside is a couple of years of lower income rather than a career setback.");
+    if (r.leap.reentry === 0) notes.push("Getting back into a comparable role could be hard. Keep your skills and network warm, for example through part-time consulting, so the door stays open.");
+    const bestPct = r.paths[0].pct;
+
+    $("results").innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span class="eyebrow">Your result</span>
+      </div>
+      <div class="panel verdict">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="arch">${A.name}</div>
+          <p>${A.sum}</p>
+          <div class="scores">
+            <div class="score f"><b>${Math.round(r.apt)}</b><span>Founder aptitude<br>would you be good at it</span></div>
+            <div class="score c"><b>${Math.round(r.enj)}</b><span>Founder enjoyment<br>would you like it</span></div>
+            <div class="score"><b>${Math.round(r.ready)}</b><span>Safety net<br>savings, costs, fallback</span></div>
+          </div>
+        </div>
+        <div>${quad(r.apt, r.enj, false)}</div>
+      </div>
+
+      <div class="panel">
+        <h2>Your nine traits</h2>
+        <p class="small muted" style="margin-top:6px">Each bar runs from the career-friendly end on the left to the founder-friendly end on the right. Neither end is better in general; they just fit different paths.</p>
+        <div class="dims">
+          ${Object.keys(DIMS).map(k => {
+            const v = r.d[k], cls = v >= 58 ? "f" : v <= 42 ? "c" : "n";
+            return `<div class="dim">
+              <div class="dim-top"><h3>${DIMS[k].name} ${grpTag(DIMS[k].grp)}</h3><span class="val">${Math.round(v)}</span></div>
+              <div class="track"><span class="mk ${cls}" style="left:${v}%"></span></div>
+              <div class="ends"><span>${DIMS[k].left}</span><span>${DIMS[k].right}</span></div>
+              <p>${dimText(k, v)}</p>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>
+
+      <div class="pulls">
+        <div class="pull">
+          <h3>What pulls you toward founding</h3>
+          <ul>${top.map(k => `<li><strong>${DIMS[k].name}</strong> (${Math.round(r.d[k])})</li>`).join("")}</ul>
+        </div>
+        <div class="pull c">
+          <h3>What pulls you toward a career</h3>
+          <ul>${bottom.map(k => `<li><strong>${DIMS[k].name}</strong> (${Math.round(r.d[k])})</li>`).join("")}</ul>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Paths ranked by fit</h2>
+        <p class="small muted" style="margin-top:6px">Entrepreneurship and a high-paying job aren't the only two options. Here's how six common paths match your profile.</p>
+        <div class="paths">
+          ${r.paths.map((p, i) => `<div class="path">
+            <h3>${p.name}${p.pct >= bestPct - 3 && i < 2 ? ' <span class="best">Best fit</span>' : ''}</h3>
+            <span class="pct">${Math.round(p.pct)}%</span>
+            <div class="pbar"><i style="width:${p.pct}%;background:var(--${p.color})"></i></div>
+            <p>${p.desc}</p>
+          </div>`).join("")}
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Your leap from corporate</h2>
+        <div class="ready-row">
+          <div><span class="chip ${readyChip[0]}">${readyChip[1]} · ${Math.round(r.ready)}</span><p class="small" style="margin-top:10px">${readyText}</p></div>
+          <div><span class="chip ${edgeChip[0]}">${edgeChip[1]} · ${Math.round(r.edge)}</span><p class="small" style="margin-top:10px">${edgeText}</p></div>
+        </div>
+        ${notes.length ? `<ul class="steps" style="list-style:disc;margin-top:20px">${notes.map(n => `<li class="small">${n}</li>`).join("")}</ul>` : ""}
+        <h3 style="margin-top:24px">Before you resign, whatever your result</h3>
+        <ul class="steps" style="list-style:disc">
+          <li class="small">Read your employment agreement for non-compete, non-solicit, and IP assignment clauses, and keep any venture work off company time and equipment.</li>
+          <li class="small">Map your exit against bonus payouts, equity vesting dates, and 401(k) matching so you don't leave earned money behind.</li>
+          <li class="small">Plan health insurance in advance. In the US that usually means COBRA or a marketplace plan.</li>
+          <li class="small">Leave on good terms. Former colleagues and employers are often a new founder's first customers, hires, or investors.</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>What to do next</h2>
+        <ol class="steps">${A.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="pdfBtn" type="button">Download PDF of my results</button>
+        <button class="btn ghost" id="copyBtn" type="button">Copy my results</button>
+        <button class="btn ghost" id="retakeBtn" type="button">Retake the quiz</button>
+      </div>
+      <p class="toast" id="toast" aria-live="polite"></p>
+      <textarea id="copyFallback" readonly hidden style="width:100%;min-height:160px;font:13px var(--mono);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px"></textarea>
+      <p class="fineprint">Your results are anonymous and private to you. The PDF is created on your device, and nothing is sent anywhere or tracked. Scores reflect how you answered today. Traits like selling, resilience, and self-direction grow with practice, so retake this after a year of experiments and compare.</p>
+    `;
+
+    const summary = [
+      `Founder Fit Quiz result: ${A.name}`,
+      `Founder aptitude ${Math.round(r.apt)}/100 · Founder enjoyment ${Math.round(r.enj)}/100 · Safety net ${Math.round(r.ready)}/100 · Industry edge ${Math.round(r.edge)}/100`,
+      "",
+      ...Object.keys(DIMS).map(k => `${DIMS[k].name}: ${Math.round(r.d[k])}`),
+      "",
+      "Top paths: " + r.paths.slice(0, 3).map(p => `${p.name} (${Math.round(p.pct)}%)`).join(", ")
+    ].join("\n");
+
+    $("copyBtn").addEventListener("click", () => {
+      const fb = () => { const t = $("copyFallback"); t.hidden = false; t.value = summary; t.focus(); t.select(); $("toast").textContent = "Select the text below and copy it."; };
+      try {
+        navigator.clipboard.writeText(summary).then(() => $("toast").textContent = "Copied to clipboard.", fb);
+      } catch (e) { fb(); }
+    });
+    $("pdfBtn").addEventListener("click", () => {
+      try {
+        buildPDF({ r, A, top, bottom, notes, readyChip, readyText, edgeChip, edgeText });
+        $("toast").textContent = "PDF downloaded.";
+      } catch (e) {
+        $("toast").textContent = "Couldn't build the PDF. Check your internet connection, reload the page, and try again.";
+      }
+    });
+    $("retakeBtn").addEventListener("click", () => { clear(); idx = 0; ans = {}; show("quiz"); renderQ(); });
+    show("results");
+  }
+
+  // ---------- PDF report ----------
+  function buildPDF(o) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "pt", format: "letter" });
+    const W = 612, H = 792, M = 54, CW = W - 2 * M;
+    const C = { ink: [21, 32, 46], muted: [88, 100, 116], line: [210, 216, 224], f: [208, 138, 12], fInk: [138, 86, 0],
+      fSoft: [246, 231, 200], c: [45, 95, 139], cSoft: [214, 227, 239], white: [255, 255, 255] };
+    const r = o.r;
+    let y = M;
+    const clean = s => String(s).replace(/→/g, "->").replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/&amp;/g, "&");
+    const fill = k => doc.setFillColor(...C[k]);
+    const draw = k => doc.setDrawColor(...C[k]);
+    const font = (size, style = "normal", color = "ink", face = "helvetica") => { doc.setFont(face, style); doc.setFontSize(size); doc.setTextColor(...C[color]); };
+    const need = h => { if (y + h > H - M - 16) { doc.addPage(); y = M; } };
+    const para = (s, size = 10, style = "normal", color = "ink", x = M, width = CW, lh = 1.4) => {
+      font(size, style, color);
+      const lines = doc.splitTextToSize(clean(s), width);
+      const h = lines.length * size * lh;
+      need(h);
+      doc.text(lines, x, y + size, { lineHeightFactor: lh });
+      y += h;
+    };
+    const heading = s => {
+      need(90); y += 18;
+      font(15, "bold", "ink"); doc.text(clean(s), M, y + 15); y += 24;
+      draw("line"); doc.setLineWidth(0.75); doc.line(M, y, M + CW, y); y += 14;
+    };
+    const bullet = (s, size = 9.5) => {
+      font(size); const lines = doc.splitTextToSize(clean(s), CW - 14);
+      need(lines.length * size * 1.4);
+      fill("ink"); doc.circle(M + 3, y + size * 0.65, 1.6, "F");
+      para(s, size, "normal", "ink", M + 14, CW - 14); y += 5;
+    };
+
+    // Header
+    font(8.5, "bold", "muted");
+    doc.text("FOUNDER FIT QUIZ  ·  YOUR RESULTS", M, y + 9);
+    doc.text(new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }), M + CW, y + 9, { align: "right" });
+    y += 30;
+    font(30, "bold", "ink"); doc.text(o.A.name, M, y + 28); y += 44;
+    para(o.A.sum, 11, "normal", "ink", M, CW, 1.45); y += 18;
+
+    // Score tiles
+    const tiles = [["Founder aptitude", "Would you be good at it", r.apt, "f"], ["Founder enjoyment", "Would you like it", r.enj, "c"],
+      ["Safety net", "Savings, costs, fallback", r.ready, "muted"], ["Industry edge", "Experience, network, idea", r.edge, "muted"]];
+    const bw = (CW - 36) / 4;
+    tiles.forEach(([lab, sub, v, k], i) => {
+      const x = M + i * (bw + 12);
+      draw(k); doc.setLineWidth(2); doc.line(x, y, x + bw, y);
+      font(24, "bold", "ink", "courier"); doc.text(String(Math.round(v)), x, y + 28);
+      font(9, "bold", "ink"); doc.text(lab, x, y + 44);
+      font(8.5, "normal", "muted"); doc.text(sub, x, y + 56);
+    });
+    y += 78;
+
+    // Quadrant (left) and pulls (right)
+    need(250);
+    const S = 196, px = M + 24, py = y;
+    const X = v => px + v / 100 * S, Y = v => py + S - v / 100 * S;
+    fill("cSoft"); doc.rect(X(0), Y(55), X(55) - X(0), Y(0) - Y(55), "F");
+    fill("fSoft"); doc.rect(X(55), Y(100), X(100) - X(55), Y(55) - Y(100), "F");
+    draw("line"); doc.setLineWidth(0.75);
+    doc.rect(px, py, S, S, "S");
+    doc.line(X(55), Y(0), X(55), Y(100)); doc.line(X(0), Y(55), X(100), Y(55));
+    doc.setLineDashPattern([3, 3], 0); draw("muted");
+    doc.rect(X(45), Y(65), X(65) - X(45), Y(45) - Y(65), "S");
+    doc.setLineDashPattern([], 0);
+    font(7, "bold", "fInk"); doc.text("Natural Founder", X(100) - 5, Y(100) + 11, { align: "right" });
+    font(7, "bold", "muted"); doc.text("Restless Builder", X(0) + 5, Y(100) + 11);
+    doc.text("Capable Operator", X(100) - 5, Y(0) - 6, { align: "right" });
+    doc.text("Hybrid", X(55), Y(65) - 4, { align: "center" });
+    font(7, "bold", "c"); doc.text("Career Compounder", X(0) + 5, Y(0) - 6);
+    font(7, "normal", "muted");
+    [0, 50, 100].forEach(v => { doc.text(String(v), X(v), Y(0) + 10, { align: "center" }); doc.text(String(v), px - 4, Y(v) + 2.5, { align: "right" }); });
+    font(8, "bold", "muted");
+    doc.text("Would be good at it", X(50), Y(0) + 22, { align: "center" });
+    const ylab = "Would enjoy it", yw = doc.getTextWidth(ylab);
+    doc.text(ylab, px - 16, Y(50) + yw / 2, { angle: 90 });
+    fill("ink"); draw("white"); doc.setLineWidth(2);
+    doc.circle(X(r.apt), Y(r.enj), 6, "FD");
+
+    const x2 = M + 262, w2 = CW - 262;
+    let yy = py;
+    const pullList = (title, keys, k) => {
+      font(10.5, "bold", "ink"); doc.text(title, x2, yy + 10); yy += 20;
+      keys.forEach(key => {
+        fill(k); doc.rect(x2, yy + 1.5, 6, 6, "F");
+        font(9.5, "normal", "ink"); doc.text(`${DIMS[key].name} (${Math.round(r.d[key])})`, x2 + 12, yy + 8); yy += 16;
+      });
+      yy += 10;
+    };
+    pullList("What pulls you toward founding", o.top, "f");
+    pullList("What pulls you toward a career", o.bottom, "c");
+    font(10.5, "bold", "ink"); doc.text("Best-fit path", x2, yy + 10); yy += 18;
+    font(9.5, "normal", "ink");
+    const bp = doc.splitTextToSize(`${r.paths[0].name} (${Math.round(r.paths[0].pct)}%)`, w2);
+    doc.text(bp, x2, yy + 8, { lineHeightFactor: 1.35 });
+    y = py + S + 34;
+
+    // Traits
+    heading("Your nine traits");
+    para("Each bar runs from the career-friendly end on the left to the founder-friendly end on the right. Neither end is better in general; they fit different paths.", 9, "normal", "muted");
+    y += 8;
+    Object.keys(DIMS).forEach(k => {
+      const v = r.d[k], D = DIMS[k];
+      font(9.5); const tl = doc.splitTextToSize(clean(dimText(k, v)), CW).length;
+      need(52 + tl * 9.5 * 1.4);
+      font(10.5, "bold", "ink"); doc.text(D.name, M, y + 10);
+      const nw = doc.getTextWidth(D.name);
+      font(7.5, "bold", D.grp === "apt" ? "fInk" : D.grp === "enj" ? "c" : "muted");
+      doc.text(D.grp === "apt" ? "SKILL" : D.grp === "enj" ? "ENJOYMENT" : "BOTH", M + nw + 8, y + 10);
+      font(10, "bold", "ink", "courier"); doc.text(String(Math.round(v)), M + CW, y + 10, { align: "right" });
+      y += 18;
+      fill("cSoft"); doc.rect(M, y, CW / 2, 6, "F");
+      fill("fSoft"); doc.rect(M + CW / 2, y, CW / 2, 6, "F");
+      draw("muted"); doc.setLineWidth(0.75); doc.line(M + CW / 2, y - 2, M + CW / 2, y + 8);
+      fill(v >= 58 ? "f" : v <= 42 ? "c" : "muted"); draw("white"); doc.setLineWidth(1.5);
+      doc.circle(M + Math.max(5, Math.min(CW - 5, v / 100 * CW)), y + 3, 5, "FD");
+      y += 18;
+      font(7.5, "normal", "muted");
+      doc.text(clean(D.left), M, y); doc.text(clean(D.right), M + CW, y, { align: "right" });
+      y += 6;
+      para(dimText(k, v), 9.5);
+      y += 12;
+    });
+
+    // Paths
+    heading("Paths ranked by fit");
+    const best = r.paths[0].pct;
+    r.paths.forEach((p, i) => {
+      need(48);
+      font(10.5, "bold", "ink"); doc.text(p.name, M, y + 10);
+      if (p.pct >= best - 3 && i < 2) {
+        const nw = doc.getTextWidth(p.name);
+        fill("ink"); doc.roundedRect(M + nw + 8, y + 1, 46, 12, 2, 2, "F");
+        font(7, "bold", "white"); doc.text("BEST FIT", M + nw + 31, y + 9.5, { align: "center" });
+      }
+      font(10, "bold", "ink", "courier"); doc.text(`${Math.round(p.pct)}%`, M + CW, y + 10, { align: "right" });
+      y += 17;
+      fill("line"); doc.rect(M, y, CW, 5, "F");
+      fill(p.color === "founder" ? "f" : "c"); doc.rect(M, y, CW * p.pct / 100, 5, "F");
+      y += 9;
+      para(p.desc, 9, "normal", "muted");
+      y += 10;
+    });
+
+    // Leap
+    heading("Your leap from corporate");
+    para(`${o.readyChip[1]} · ${Math.round(r.ready)}`, 10.5, "bold", "ink"); y += 3;
+    para(o.readyText, 9.5); y += 10;
+    para(`${o.edgeChip[1]} · ${Math.round(r.edge)}`, 10.5, "bold", "ink"); y += 3;
+    para(o.edgeText, 9.5); y += 10;
+    o.notes.forEach(n => bullet(n));
+    y += 8;
+    para("Before you resign, whatever your result", 10.5, "bold", "ink"); y += 5;
+    [
+      "Read your employment agreement for non-compete, non-solicit, and IP assignment clauses, and keep any venture work off company time and equipment.",
+      "Map your exit against bonus payouts, equity vesting dates, and 401(k) matching so you don't leave earned money behind.",
+      "Plan health insurance in advance. In the US that usually means COBRA or a marketplace plan.",
+      "Leave on good terms. Former colleagues and employers are often a new founder's first customers, hires, or investors."
+    ].forEach(s => bullet(s));
+
+    // Next steps
+    heading("What to do next");
+    o.A.steps.forEach((s, i) => {
+      font(10); const n = doc.splitTextToSize(clean(s), CW - 18).length;
+      need(n * 14);
+      font(10, "bold", "ink"); doc.text(`${i + 1}.`, M, y + 10);
+      para(s, 10, "normal", "ink", M + 18, CW - 18); y += 6;
+    });
+    y += 12;
+    para("Scores reflect how you answered today. Traits like selling, resilience, and self-direction grow with practice, so retake the quiz after a year of experiments and compare.", 8.5, "normal", "muted");
+
+    // Footers
+    const n = doc.getNumberOfPages();
+    for (let i = 1; i <= n; i++) {
+      doc.setPage(i);
+      font(7.5, "normal", "muted");
+      doc.text("Founder Fit Quiz · a self-reflection tool, not a validated psychometric test", M, H - 30);
+      doc.text(`Page ${i} of ${n}`, M + CW, H - 30, { align: "right" });
+    }
+    doc.save("founder-fit-results.pdf");
+  }
+
+  // ---------- Wiring ----------
+  $("previewQuad").innerHTML = quad(68, 41, true);
+  $("startBtn").addEventListener("click", () => { idx = 0; ans = {}; save(); show("quiz"); renderQ(); });
+  $("resumeBtn").addEventListener("click", () => { show("quiz"); renderQ(); });
+  $("backBtn").addEventListener("click", () => { if (idx > 0) { idx--; save(); renderQ(); } });
+
+  document.addEventListener("keydown", e => {
+    if ($("quiz").hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+    const n = parseInt(e.key, 10);
+    const btns = $("qOpts").children;
+    if (n >= 1 && n <= btns.length) { btns[n - 1].click(); }
+    else if ((e.key === "ArrowLeft" || e.key === "Backspace") && idx > 0) { e.preventDefault(); $("backBtn").click(); }
+  });
+
+  const saved = load();
+  if (saved && saved.ans && Object.keys(saved.ans).length) {
+    ans = saved.ans; idx = Math.min(saved.idx || 0, Q.length - 1);
+    if (saved.done && Object.keys(ans).length >= Q.length) { renderResults(); }
+    else { $("resumeBtn").hidden = false; $("startBtn").textContent = "Start over"; }
+  }
+})();
+</script>
+
+</body>
+</html>
